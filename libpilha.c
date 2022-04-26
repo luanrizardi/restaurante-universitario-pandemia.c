@@ -9,7 +9,7 @@
 pilha_t* pilha_cria (int nelem){
     pilha_t *pilha;
     pilha = malloc(sizeof(pilha_t));
-    pilha->elems = malloc(sizeof(nelem));
+    pilha->elems = malloc(nelem * sizeof(int));
     if(!pilha || !pilha->elems)
         return NULL;
     pilha->nelem = nelem;

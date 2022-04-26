@@ -1,6 +1,8 @@
 all:
 	gcc -c libpilha.c -o libpilha.o
-	gcc -std=c90 -Wall libpilha.o ru_na_pandemia.c -o ru_na_pandemia 
+	gcc -c libfila.c -o libfila.o
+	gcc -c liblista.c -o liblista.o
+	gcc -Wall libpilha.o liblista.o libfila.o ru_na_pandemia.c -o ru_na_pandemia 
 
 clean:
 	-rm -f *~ *.o
