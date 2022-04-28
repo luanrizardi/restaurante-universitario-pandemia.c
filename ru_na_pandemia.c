@@ -18,6 +18,8 @@ typedef struct
 {
     double mascara;  /* dinheiro em mascara */
     double refeicao; /* dinheiro em refeicao */
+
+
 } din_t;
 
 pessoa_t **pessoa_cria(int x)
@@ -61,7 +63,6 @@ din_t *din_cria()
 
 int main()
 {
-
     srand(time(NULL));
     int x = 1 + (rand() % 100);
     int y = 500 + (rand() % 500);
@@ -75,6 +76,7 @@ int main()
     pessoa_t **pessoa = pessoa_cria(z);
     din_t *din = din_cria();
     int i;
+
     for (i = 0; i < x; i++)
         push(pilha_masc, i);
 
@@ -110,7 +112,7 @@ int main()
             dequeue(fila, &aux);
             pop(pilha_ref);
         }
-        else if (!pessoa[fila->ini->chave]->vacina == 0 && pessoa[fila->ini->chave]->dinheiro >= 2.50 && !pilha_vazia(pilha_masc)) //&& pessoa[fila->ini->chave]->vacina == 1)
+        else if (pessoa[fila->ini->chave]->dinheiro >= 2.50 && !pilha_vazia(pilha_masc))
         {
             //printf("ticket 3: %d \n", pessoa[fila->ini->chave]->ticket);
             pessoa[fila->ini->chave]->dinheiro = pessoa[fila->ini->chave]->dinheiro - 2.50;
