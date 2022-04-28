@@ -11,7 +11,6 @@ typedef struct
     int ticket; /* identifica pessoa na fila */
     int vacina; /* 0 - n vacinado , 1 - vacinado */
     int masc;   /* 0 - sem mascara , 1 - com mascara */
-    int posicao;
     float dinheiro; /* 1.30 ou 3.80 */
 } pessoa_t;
 
@@ -90,53 +89,55 @@ int main()
     // 5
     lista_t *lista = lista_cria();
     i = 0;
+
+    printf("tamanho ref: %d \n", pilha_tamanho(pilha_ref));
+
     while (!fila_vazia(fila) && !pilha_vazia(pilha_ref))
     {
         // se não esta vacinada
         if (pessoa[fila->ini->chave]->vacina == 0)
         {
             lista_insere_fim(lista, pessoa[fila->ini->chave]->ticket);
+            //printf("ticket 1: %d \n", pessoa[fila->ini->chave]->ticket);
             dequeue(fila, &aux);
         }
         // se esta com mascara
-        else if (pessoa[fila->ini->chave]->masc == 1)
+        else if (pessoa[fila->ini->chave]->masc == 1 && !pilha_vazia(pilha_ref))
         {
+            //printf("ticket 2: %d \n", pessoa[fila->ini->chave]->ticket);
             pessoa[fila->ini->chave]->dinheiro = pessoa[fila->ini->chave]->dinheiro - 1.30;
             din->refeicao = din->refeicao + 1.30;
             dequeue(fila, &aux);
             pop(pilha_ref);
         }
+        else if (!pessoa[fila->ini->chave]->vacina == 0 && pessoa[fila->ini->chave]->dinheiro >= 2.50 && !pilha_vazia(pilha_masc)) //&& pessoa[fila->ini->chave]->vacina == 1)
+        {
+            //printf("ticket 3: %d \n", pessoa[fila->ini->chave]->ticket);
+            pessoa[fila->ini->chave]->dinheiro = pessoa[fila->ini->chave]->dinheiro - 2.50;
+            din->mascara = din->mascara + 2.50;
+            pessoa[fila->ini->chave]->masc = 1;
+            queue(fila, pessoa[fila->ini->chave]->ticket);
+            dequeue(fila, &aux);
+        }    
+            // acabarama as mascaras ou nao tem dinheiro
         else
         {
-            // nao esta com mascara mas comprou
-            if (pessoa[fila->ini->chave]->dinheiro >= 2.50 && !pilha_vazia(pilha_masc) && pessoa[fila->ini->chave]->vacina == 1)
-            {
-                pessoa[fila->ini->chave]->dinheiro = pessoa[fila->ini->chave]->dinheiro - 2.50;
-                din->mascara = din->mascara + 2.50;
-                pessoa[fila->ini->chave]->masc = 1;
-                dequeue(fila, &aux);
-                queue(fila, pessoa[fila->ini->chave]->ticket);
-            }
-            // acabarama as mascaras ou nao tem dinheiro
-            else
-            {
-                lista_insere_fim(lista, pessoa[fila->ini->chave]->ticket);
-                dequeue(fila, &aux);
-            }
+            //printf("ticket 4: %d \n", pessoa[fila->ini->chave]->ticket);
+            lista_insere_fim(lista, pessoa[fila->ini->chave]->ticket);
+            dequeue(fila, &aux);
         }
+        
         // fila_imprime(fila);
     }
     // fila_destroi(fila);
-    // printf("%d \n", lista_tamanho(lista));
-    // printf("%d \n", fila_tamanho(fila));
 
     printf("Dinheiro ganho com refeição: %f \n", din->refeicao);
     printf("Dinheiro ganho com mascara: %f \n", din->mascara);
     printf("Dinheiro ganho total: %f \n", din->mascara + din->refeicao);
 
-    // lista_imprime(lista);
-    // printf("%d \n", pilha_tamanho(pilha_ref));
-    // printf("%d \n", pilha_tamanho(pilha_masc));
+    lista_imprime(lista);
+    printf("tamanho da lista: %d \n", lista_tamanho(lista));
+    printf("tamanho ref: %d \n", pilha_tamanho(pilha_ref));
 
     return 0;
 }
