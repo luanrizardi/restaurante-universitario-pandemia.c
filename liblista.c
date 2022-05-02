@@ -226,10 +226,11 @@ void lista_imprime(lista_t *l)
         return;
     nodo_l_t *ptr;
     ptr = l->ini;
-    printf("Lista: ");
+    printf("Lista: \n");
     for (int i = 0; i < l->tamanho; i++)
     {
-        printf("%d ", ptr->elemento);
+            printf("%d ", ptr->elemento);
+
         ptr = ptr->prox;
     }
     printf("\n");
