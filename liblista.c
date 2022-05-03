@@ -229,7 +229,7 @@ void lista_imprime(lista_t *l)
     printf("Lista: \n");
     for (int i = 0; i < l->tamanho; i++)
     {
-            printf("%d ", ptr->elemento);
+        printf("%d ", ptr->elemento);
 
         ptr = ptr->prox;
     }
